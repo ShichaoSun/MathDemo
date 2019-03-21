@@ -16,17 +16,31 @@
 </head>
 
 <body>
-    <div class="container-fluid d-flex flex-column justify-content-center align-items-center" style="height: 60vh">
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center" style="margin-top: 20vh; margin-bottom: 4vh">
         <h1 style="margin-bottom: 5vh">
             中文数学应用题解题演示
         </h1>
         <form method="post" action="/result">
-            <textarea style="margin-bottom: 2vh;resize:none" name="prob" class="form-control" cols="50" rows="3" placeholder="在这里输入一道中文数学题"></textarea>
+            <textarea style="margin-bottom: 4vh;resize:none" name="prob" class="form-control" cols="50" rows="3" placeholder="在这里输入一道中文数学题"></textarea>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mr-4">解题</button>
-                <a href="/success" role="button" class="btn btn-success">随便试试</a>
+                <button type="submit" class="btn btn-success" style="width: 40%">解题</button>
             </div>
         </form>
+    </div>
+    <hr style="width: 60%">
+    <div style="margin-left: 25vw">
+        <h5>
+            输入样例
+        </h5>
+        <ul>
+            {% for p in probs %}
+                <li>
+                    <form method="post" action="/result">
+                        <button type="submit" class="btn btn-link" name="prob" value="{{ p }}">{{ p }}</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 
