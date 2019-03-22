@@ -1,5 +1,10 @@
 # Demo for Math Word Problem Solver
 
+## Run 
+```
+sudo python app.py
+```
+
 ## Requirements
 - Python 3.6
 - Flask 1.0.2
