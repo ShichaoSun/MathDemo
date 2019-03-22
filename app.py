@@ -67,7 +67,7 @@ def result():
 
     ans = "%.2f" % ans
 
-    if ans[-3] == ".00":
+    if ans[-3:] == ".00":
         ans = ans[:-3]
     exp += "=" + ans
     return render_template("result.html", prob=prob, tree=tree, exp=exp)
