@@ -1,4 +1,44 @@
 from flask import Flask, render_template, request
+from mathsolver.pre_data import *
+from mathsolver.predict import *
+
+batch_size = 64
+embedding_size = 128
+hidden_size = 512
+n_epochs = 80
+learning_rate = 1e-3
+weight_decay = 1e-5
+beam_size = 5
+n_layers = 2
+
+data = load_raw_data("static/data/Math_23K.json")
+pairs, generate_nums, copy_nums = transfer_num(data)
+temp_pairs = []
+for p in pairs:
+    temp_pairs.append((p[0], from_infix_to_prefix(p[1]), p[2], p[3]))
+pairs = temp_pairs
+
+input_lang, output_lang = prepare_data(pairs, 5, generate_nums, copy_nums, tree=True)
+# Initialize models
+encoder = EncoderSeq(input_size=input_lang.n_words, embedding_size=embedding_size, hidden_size=hidden_size,
+                     n_layers=n_layers)
+predict = Prediction(hidden_size=hidden_size, op_nums=output_lang.n_words - copy_nums - 1 - len(generate_nums),
+                     input_size=len(generate_nums))
+generate = GenerateNode(hidden_size=hidden_size, op_nums=output_lang.n_words - copy_nums - 1 - len(generate_nums),
+                        embedding_size=embedding_size)
+merge = Merge(hidden_size=hidden_size, embedding_size=embedding_size)
+
+encoder.load_state_dict(torch.load("static/models/encoder"))
+predict.load_state_dict(torch.load("static/models/predict"))
+generate.load_state_dict(torch.load("static/models/generate"))
+merge.load_state_dict(torch.load("static/models/merge"))
+
+# Move models to GPU
+if USE_CUDA:
+    encoder.cuda()
+    predict.cuda()
+    generate.cuda()
+    merge.cuda()
 
 app = Flask(__name__)
 
@@ -17,8 +57,19 @@ def index():
 @app.route('/result', methods=('POST', 'GET'))
 def result():
     prob = request.form['prob']
-    tree = '{0 [label=&#x22;&#xD7;&#x22;];1 [label=&#x22;&#xF7;&#x22;];2 [label=&#x22;&#xF7;&#x22;];3 [label=&#x22;1&#x22;];4 [label=&#x22;2&#x22;];5 [label=&#x22;0.62&#x22;];6 [label=&#x22;(5/5)&#x22;];0 -- 1 -- 2 -- 3; 2 -- 4; 1 -- 5; 0 --6}'
-    exp = "316+230×(6-1)=1466"
+    seq, nums, num_pos = pre_sent(prob, input_lang.word2index)
+    out = evaluate_tree(seq, len(seq), generate_nums, encoder, predict, generate, merge, output_lang, num_pos)
+
+    out_seq = out_expression_list(out, output_lang, nums)
+    ans = compute_prefix_expression(out_seq)
+
+    exp, tree = generate_exp_tree(out_seq)
+
+    ans = "%.2f" % ans
+
+    if ans[-3] == ".00":
+        ans = ans[:-3]
+    exp += "=" + ans
     return render_template("result.html", prob=prob, tree=tree, exp=exp)
 
 
