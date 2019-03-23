@@ -1,14 +1,5 @@
 # Demo for Chinese Math Word Problem Solver
 
-### index
-<img src="readme/index.png" align="center">
-
-### example 1
-<img src="readme/example_1.png" align="center"> 
-
-### example 2
-<img src="readme/example_2.png" align="center">
-
 ## Run 
 ```
 sudo python app.py
@@ -25,3 +16,11 @@ sudo python app.py
 - [he](https://github.com/mathiasbynens/he) to encode and decode HTML entity
 - [DOT language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) to describe tree which is drawn by visjs 
 
+<h4>index</h4>
+<img src="readme/index.png" align="center">
+
+<h4>example 1</h4>
+<img src="readme/example_1.png" align="center"> 
+
+<h4>example 2</h4>
+<img src="readme/example_2.png" align="center">
