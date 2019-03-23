@@ -1,6 +1,18 @@
 # Demo for Chinese Math Word Problem Solver
 
 ## Run 
+1. create and activate virtual environment 
+```
+mkdir venv
+cd venv
+virtualenv -p python3 venv
+source venv/bin/activate
+```
+2. install requirements
+```
+pip3 install -r reuiremnts.txt
+```
+3. run the application
 ```
 sudo python app.py
 ```
