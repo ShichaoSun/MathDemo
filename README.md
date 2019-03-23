@@ -1,4 +1,8 @@
-# Demo for Math Word Problem Solver
+# Demo for Chinese Math Word Problem Solver
+
+<img src="readme/index.png" align="center" width="700px">
+
+<img src="readme/example_1.png" align="center" width="400px"> <img src="readme/example_2.png" align="center" width="400px">
 
 ## Run 
 ```
