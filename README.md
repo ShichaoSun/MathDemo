@@ -1,8 +1,13 @@
 # Demo for Chinese Math Word Problem Solver
 
-<img src="readme/index.png" align="center" width="700px">
+### index
+<img src="readme/index.png" align="center">
 
-<img src="readme/example_1.png" align="center" width="400px"> <img src="readme/example_2.png" align="center" width="400px">
+### example 1
+<img src="readme/example_1.png" align="center"> 
+
+### example 2
+<img src="readme/example_2.png" align="center">
 
 ## Run 
 ```
